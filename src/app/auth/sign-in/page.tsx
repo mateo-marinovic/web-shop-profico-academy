@@ -1,7 +1,11 @@
 "use client";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
+  username: string;
   firstName: string;
   lastName: string;
   password: string;
@@ -14,13 +18,33 @@ export default function Auth() {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      username: "",
       firstName: "",
       lastName: "",
       password: "",
     },
   });
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+
+  const router = useRouter();
+
+  const onSubmit = (formValues: FormValues) => {
+    axios
+      .get(`http://localhost:3004/users?username=${formValues.username}`)
+      .then(({ data }) => {
+        if (data.length > 0) {
+          throw new Error("User already exist");
+        }
+
+        return axios.post("http://localhost:3004/users", formValues);
+      })
+      .then((response) => {
+        localStorage.setItem(
+          "jwt-token",
+          `some-dummy-value-${response?.data.id}`
+        );
+
+        router.push("/test");
+      });
   };
 
   return (
@@ -29,6 +53,14 @@ export default function Auth() {
         className="bg-white shadow-md rounded px-32 pt-28 pb-28 mb-10"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          {...register("username", { required: "This field is required!" })}
+          placeholder="Username"
+        />
+        <p className="mb-10  text-red-500 text-xs italic">
+          {errors.username?.message}
+        </p>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           {...register("firstName", { required: "This field is required!" })}
@@ -62,8 +94,11 @@ export default function Auth() {
         </p>
         <div className="flex items-center justify-center">
           <button className="mt-10 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Log in
+            Sign in
           </button>
+        </div>
+        <div className="flex items-center justify-center">
+          <Link href="/auth/login">Login</Link>
         </div>
       </form>
     </div>

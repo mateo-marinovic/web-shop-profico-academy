@@ -1,7 +1,10 @@
+import { error } from "console";
 import "./styles/globals.css";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
+import { AuthGuard } from "@/components/auth-guard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,8 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={inter.className}>
-        <h1>Root layout</h1>
-        {children}
+        <AuthGuard>{children}</AuthGuard>
       </body>
     </html>
   );

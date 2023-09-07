@@ -1,9 +1,11 @@
 "use client";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
-  firstName: string;
-  lastName: string;
+  username: string;
   password: string;
 };
 
@@ -14,13 +16,33 @@ export default function Auth() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      username: "",
       password: "",
     },
   });
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
+
+  const router = useRouter();
+
+  const onSubmit = (formValues: FormValues) => {
+    axios
+      .get(`http://localhost:3004/users?username=${formValues.username}`)
+      .then(({ data }) => {
+        if (data.length === 0) {
+          alert("User name or password are not correct!");
+          return;
+        }
+
+        const [user] = data;
+
+        if (user.password !== formValues.password) {
+          alert("User name or password are not correct!");
+          return;
+        }
+
+        localStorage.setItem("jwt-token", `some-dummy-value-${user.id}`);
+
+        router.push("/test");
+      });
   };
 
   return (
@@ -31,19 +53,11 @@ export default function Auth() {
       >
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          {...register("firstName", { required: "This field is required!" })}
-          placeholder="First Name"
+          {...register("username", { required: "This field is required!" })}
+          placeholder="Username"
         />
         <p className="mb-10  text-red-500 text-xs italic">
-          {errors.firstName?.message}
-        </p>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          {...register("lastName", { required: "This field is required!" })}
-          placeholder="Last Name"
-        />
-        <p className="mb-10 text-red-500 text-xs italic">
-          {errors.lastName?.message}
+          {errors.username?.message}
         </p>
         <input
           type="password"
@@ -62,8 +76,11 @@ export default function Auth() {
         </p>
         <div className="flex items-center justify-center">
           <button className="mt-10 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Log in
+            Sign in
           </button>
+        </div>
+        <div className="flex items-center justify-center">
+          <Link href="/auth/sign-in">Create account</Link>
         </div>
       </form>
     </div>
