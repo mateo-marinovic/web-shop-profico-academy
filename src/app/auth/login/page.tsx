@@ -1,8 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import authService from "@/services/auth.service";
 
 type FormValues = {
   username: string;
@@ -23,26 +23,15 @@ export default function Auth() {
 
   const router = useRouter();
 
+  const login = async (username: string, password: string) => {
+    const isSuccess = await authService.login(username, password);
+
+    if (isSuccess) router.push("/products");
+  };
+
   const onSubmit = (formValues: FormValues) => {
-    axios
-      .get(`http://localhost:3004/users?username=${formValues.username}`)
-      .then(({ data }) => {
-        if (data.length === 0) {
-          alert("User name or password are not correct!");
-          return;
-        }
-
-        const [user] = data;
-
-        if (user.password !== formValues.password) {
-          alert("User name or password are not correct!");
-          return;
-        }
-
-        localStorage.setItem("jwt-token", `some-dummy-value-${user.id}`);
-
-        router.push("/test");
-      });
+    const { username, password } = formValues;
+    login(username, password);
   };
 
   return (

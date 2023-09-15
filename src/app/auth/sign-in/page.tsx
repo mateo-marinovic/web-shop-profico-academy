@@ -1,8 +1,10 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import usersHttpClient from "@/http-clients/users.http-client";
+import authService from "@/services/auth.service";
+import { UserSignIn } from "@/types/user";
 
 type FormValues = {
   username: string;
@@ -27,24 +29,13 @@ export default function Auth() {
 
   const router = useRouter();
 
+  const signIn = async (userSignIn: UserSignIn) => {
+    await authService.signIn(userSignIn);
+    router.push("/products");
+  };
+
   const onSubmit = (formValues: FormValues) => {
-    axios
-      .get(`http://localhost:3004/users?username=${formValues.username}`)
-      .then(({ data }) => {
-        if (data.length > 0) {
-          throw new Error("User already exist");
-        }
-
-        return axios.post("http://localhost:3004/users", formValues);
-      })
-      .then((response) => {
-        localStorage.setItem(
-          "jwt-token",
-          `some-dummy-value-${response?.data.id}`
-        );
-
-        router.push("/test");
-      });
+    signIn(formValues);
   };
 
   return (

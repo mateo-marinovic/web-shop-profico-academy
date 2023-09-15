@@ -6,6 +6,59 @@
       "lastName": "Marinović",
       "password": "1234",
       "id": 1
+    },
+    {
+      "username": "avion",
+      "firstName": "ivo",
+      "lastName": "ivic",
+      "password": "12345",
+      "id": 2
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "title": "Ball",
+      "price": 50,
+      "image": "./images/ball-event.jpg",
+      "favoriteBy": [
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Cap",
+      "price": 60,
+      "image": "./images/cap-event.jpg",
+      "favoriteBy": []
+    },
+    {
+      "id": 3,
+      "title": "Dress",
+      "price": 40,
+      "image": "./images/dress-event.jpg",
+      "favoriteBy": []
+    },
+    {
+      "id": 4,
+      "title": "Glasses",
+      "price": 100,
+      "image": "./images/glasses-event.jpg",
+      "favoriteBy": []
+    },
+    {
+      "id": 5,
+      "title": "Pants",
+      "price": 55,
+      "image": "./images/pants-event.jpg",
+      "favoriteBy": []
+    },
+    {
+      "id": 6,
+      "title": "Shirt",
+      "price": 45,
+      "image": "./images/shirt-event.jpg",
+      "favoriteBy": []
     }
   ]
 }
