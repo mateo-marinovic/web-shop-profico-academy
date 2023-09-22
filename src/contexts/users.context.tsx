@@ -17,7 +17,7 @@ const UsersContext = createContext<UserContextState>(
   userContextStateDefaultValue
 );
 
-export function UsersProvider({ children }: UsersProviderProps) {
+export const UsersProvider: React.FC<UsersProviderProps> = ({ children }) => {
   const [id, setId] = useState<number>(0);
 
   useEffect(() => {
@@ -31,6 +31,6 @@ export function UsersProvider({ children }: UsersProviderProps) {
   return (
     <UsersContext.Provider value={{ id }}>{children}</UsersContext.Provider>
   );
-}
+};
 
 export const useUsersContext = () => useContext(UsersContext);

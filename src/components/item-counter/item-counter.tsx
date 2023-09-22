@@ -15,18 +15,16 @@ function ItemCounter() {
   const disable = count <= 0;
 
   return (
-    <>
-      <div className="flex h-[45px] w-[440px] flex-row items-center justify-center justify-evenly border-2">
-        <button
-          disabled={disable}
-          onClick={decrementCount}
-        >
-          -
-        </button>
-        <span>{count}</span>
-        <button onClick={incrementCount}>+</button>
-      </div>
-    </>
+    <div className="flex h-[45px] w-[440px] flex-row items-center justify-center justify-evenly border-2">
+      <button
+        disabled={disable}
+        onClick={decrementCount}
+      >
+        -
+      </button>
+      <span>{count}</span>
+      <button onClick={incrementCount}>+</button>
+    </div>
   );
 }
 

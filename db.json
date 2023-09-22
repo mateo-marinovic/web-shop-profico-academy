@@ -21,16 +21,16 @@
       "title": "Ball",
       "price": 50,
       "image": "./images/ball-event.jpg",
-      "favoriteBy": [
-        1
-      ]
+      "favoriteBy": []
     },
     {
       "id": 2,
       "title": "Cap",
       "price": 60,
       "image": "./images/cap-event.jpg",
-      "favoriteBy": []
+      "favoriteBy": [
+        2
+      ]
     },
     {
       "id": 3,

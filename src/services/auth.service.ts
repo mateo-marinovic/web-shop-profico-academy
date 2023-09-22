@@ -1,5 +1,5 @@
 import usersHttpClient from "@/http-clients/users.http-client";
-import { UserSignIn } from "@/types/user";
+import { UserSignIn } from "@/interfaces/user";
 
 export class AuthService {
   public async login(username: string, password: string): Promise<boolean> {

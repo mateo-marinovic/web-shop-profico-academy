@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import usersHttpClient from "@/http-clients/users.http-client";
 import authService from "@/services/auth.service";
-import { UserSignIn } from "@/types/user";
+import { UserSignIn } from "@/interfaces/user";
 
 type FormValues = {
   username: string;

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export class BaseHttpClient {
   private instance: AxiosInstance;
@@ -16,6 +16,15 @@ export class BaseHttpClient {
 
   public async post<T, K>(url: string, body: T): Promise<K> {
     const { data } = await this.instance.post(url, body);
+    return data;
+  }
+
+  public async patch<T, K>(
+    url: string,
+    body: T,
+    options: AxiosRequestConfig
+  ): Promise<K> {
+    const { data } = await this.instance.patch(url, body, options);
     return data;
   }
 }

@@ -1,4 +1,4 @@
-import { User, UserSignIn } from "@/types/user";
+import { User, UserSignIn } from "@/interfaces/user";
 import { BaseHttpClient } from "./base";
 
 class UsersHttpClient extends BaseHttpClient {
