@@ -1,26 +1,25 @@
 import usersHttpClient from "@/http-clients/users.http-client";
-import { UserSignIn } from "@/interfaces/user";
+import { User, UserSignIn } from "@/interfaces/user";
 
 export class AuthService {
-  public async login(username: string, password: string): Promise<boolean> {
+  public async login(username: string, password: string): Promise<User | null> {
     const users = await usersHttpClient.getUsersByUsername(username);
     if (users.length === 0) {
       alert("User name or password are not correct!");
-      return false;
+      return null;
     }
 
     const [user] = users;
 
     if (user.password !== password) {
       alert("User name or password are not correct!");
-      return false;
+      return null;
     }
 
-    localStorage.setItem("jwt-token", `some-dummy-value-${user.id}`);
-    return true;
+    return user;
   }
 
-  public async signIn(userLogin: UserSignIn) {
+  public async signIn(userLogin: UserSignIn): Promise<User> {
     const users = await usersHttpClient.getUsersByUsername(userLogin.username);
 
     if (users.length > 0) {
@@ -28,8 +27,7 @@ export class AuthService {
     }
 
     const user = await usersHttpClient.create(userLogin);
-
-    localStorage.setItem("jwt-token", `some-dummy-value-${user.id}`);
+    return user;
   }
 }
 

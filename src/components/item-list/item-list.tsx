@@ -5,7 +5,7 @@ interface ItemListProps {
 }
 function ItemList({ items }: ItemListProps) {
   return (
-    <ul className="">
+    <ul className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 pb-[80px]">
       {items.map((item: Product) => {
         return (
           <ItemCard

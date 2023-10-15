@@ -1,10 +1,9 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import usersHttpClient from "@/http-clients/users.http-client";
 import authService from "@/services/auth.service";
 import { UserSignIn } from "@/interfaces/user";
+import { useUsersContext } from "@/contexts/users.context";
 
 type FormValues = {
   username: string;
@@ -27,11 +26,11 @@ export default function Auth() {
     },
   });
 
-  const router = useRouter();
+  const { onUserLoggedIn } = useUsersContext();
 
   const signIn = async (userSignIn: UserSignIn) => {
-    await authService.signIn(userSignIn);
-    router.push("/products");
+    const user = await authService.signIn(userSignIn);
+    onUserLoggedIn(user);
   };
 
   const onSubmit = (formValues: FormValues) => {
@@ -41,11 +40,11 @@ export default function Auth() {
   return (
     <div className="  flex items-center justify-center">
       <form
-        className="bg-white shadow-md rounded px-32 pt-28 pb-28 mb-10"
+        className="bg-white"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="mt-10 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           {...register("username", { required: "This field is required!" })}
           placeholder="Username"
         />
@@ -88,7 +87,7 @@ export default function Auth() {
             Sign in
           </button>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="mb-5 flex items-center justify-center -block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
           <Link href="/auth/login">Login</Link>
         </div>
       </form>

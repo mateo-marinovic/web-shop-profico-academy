@@ -27,4 +27,11 @@ export class BaseHttpClient {
     const { data } = await this.instance.patch(url, body, options);
     return data;
   }
+
+  public async delete(
+    url: string,
+    options?: AxiosRequestConfig
+  ): Promise<void> {
+    await this.instance.delete(url, options);
+  }
 }

@@ -1,28 +1,33 @@
 "use client";
 import { useCallback, useState } from "react";
 
-function ItemCounter() {
-  const [count, setCount] = useState(0);
+type ItemCounterProps = {
+  numberOfItems: number;
+  setNumberOfITems: (value: number) => void;
+};
+
+function ItemCounter(props: ItemCounterProps) {
+  const { setNumberOfITems, numberOfItems } = props;
 
   const decrementCount = useCallback(() => {
-    setCount(count - 1);
-  }, [count]);
+    setNumberOfITems(numberOfItems - 1);
+  }, [numberOfItems]);
 
   const incrementCount = useCallback(() => {
-    setCount(count + 1);
-  }, [count]);
+    setNumberOfITems(numberOfItems + 1);
+  }, [numberOfItems]);
 
-  const disable = count <= 0;
+  const disable = numberOfItems <= 0;
 
   return (
-    <div className="flex h-[45px] w-[440px] flex-row items-center justify-center justify-evenly border-2">
+    <div className="flex h-[45px] w-full flex-row items-center justify-center justify-evenly border-2">
       <button
         disabled={disable}
         onClick={decrementCount}
       >
         -
       </button>
-      <span>{count}</span>
+      <span>{numberOfItems}</span>
       <button onClick={incrementCount}>+</button>
     </div>
   );

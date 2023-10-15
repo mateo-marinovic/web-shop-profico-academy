@@ -5,6 +5,7 @@
       "firstName": "Mateo",
       "lastName": "Marinović",
       "password": "1234",
+      "role": "Admin",
       "id": 1
     },
     {
@@ -12,6 +13,7 @@
       "firstName": "ivo",
       "lastName": "ivic",
       "password": "12345",
+      "role": "User",
       "id": 2
     }
   ],
@@ -21,7 +23,9 @@
       "title": "Ball",
       "price": 50,
       "image": "./images/ball-event.jpg",
-      "favoriteBy": []
+      "favoriteBy": [
+        1
+      ]
     },
     {
       "id": 2,
@@ -37,14 +41,18 @@
       "title": "Dress",
       "price": 40,
       "image": "./images/dress-event.jpg",
-      "favoriteBy": []
+      "favoriteBy": [
+        1
+      ]
     },
     {
       "id": 4,
       "title": "Glasses",
       "price": 100,
       "image": "./images/glasses-event.jpg",
-      "favoriteBy": []
+      "favoriteBy": [
+        1
+      ]
     },
     {
       "id": 5,
@@ -60,5 +68,6 @@
       "image": "./images/shirt-event.jpg",
       "favoriteBy": []
     }
-  ]
+  ],
+  "cartItems": []
 }
