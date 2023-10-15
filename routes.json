@@ -1,3 +1,5 @@
 {
-  "users": "/api/users"
+  "users": "/api/users",
+  "products": "/api/products",
+  "cartItems": "/api/cart-items"
 }

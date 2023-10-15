@@ -1,8 +1,9 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import authService from "@/services/auth.service";
+import { useUsersContext } from "@/contexts/users.context";
 
 type FormValues = {
   username: string;
@@ -21,34 +22,23 @@ export default function Auth() {
     },
   });
 
-  const router = useRouter();
+  const { onUserLoggedIn } = useUsersContext();
+
+  const login = async (username: string, password: string) => {
+    const user = await authService.login(username, password);
+    if (!user) return;
+    onUserLoggedIn(user);
+  };
 
   const onSubmit = (formValues: FormValues) => {
-    axios
-      .get(`http://localhost:3004/users?username=${formValues.username}`)
-      .then(({ data }) => {
-        if (data.length === 0) {
-          alert("User name or password are not correct!");
-          return;
-        }
-
-        const [user] = data;
-
-        if (user.password !== formValues.password) {
-          alert("User name or password are not correct!");
-          return;
-        }
-
-        localStorage.setItem("jwt-token", `some-dummy-value-${user.id}`);
-
-        router.push("/test");
-      });
+    const { username, password } = formValues;
+    login(username, password);
   };
 
   return (
-    <div className="  flex items-center justify-center">
+    <div className="flex items-center justify-center h-full">
       <form
-        className="bg-white shadow-md rounded px-32 pt-28 pb-28 mb-10"
+        className="bg-white"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
@@ -76,10 +66,10 @@ export default function Auth() {
         </p>
         <div className="flex items-center justify-center">
           <button className="mt-10 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-            Sign in
+            Login
           </button>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-5 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
           <Link href="/auth/sign-in">Create account</Link>
         </div>
       </form>
